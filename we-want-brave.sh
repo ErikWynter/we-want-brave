@@ -95,12 +95,12 @@ if [[ $? -eq 127 ]] ; then
                 fi
                 break
         done
-
+fi
 echo
 echo "Installing Brave repository key"
 url='https://brave-browser-apt-release.s3.brave.com/brave-core.asc'
 curl -s $url | apt-key add -
-#verify if both commands ran successfully, otherwise exit
+#check if both commands ran successfully, otherwise quit
 if [[ ${PIPESTATUS[0]} -ne 0 || ${PIPESTATUS[1]} -ne 0 ]] ; then
 	echo "An error occurred. Quitting"
 	exit
@@ -109,6 +109,7 @@ fi
 #continue
 echo "Adding Brave apt repository"
 echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ bionic main" | tee /etc/apt/sources.list.d/brave-browser-release-bionic.list > /dev/null
+
 #verify if both commands ran successfully, otherwise exit
 if [[ ${PIPESTATUS[0]} -ne 0 || ${PIPESTATUS[1]} -ne 0 ]] ; then
 	echo "An error occurred. Quitting"
@@ -118,6 +119,7 @@ fi
 #continue
 echo "Updating package lists"
 apt update
+
 #verify if command ran successfully, otherwise exit
 if [[ $? -ne 0 ]] ; then
 	echo "An error occurred. Quitting"
@@ -127,6 +129,7 @@ fi
 #continue
 echo "Installing Brave browser"
 apt install brave-browser brave-keyring
+
 #verify if command ran successfully, otherwise exit
 if [[ $? -ne 0 ]] ; then
 	echo "An error occurred. Quitting"
