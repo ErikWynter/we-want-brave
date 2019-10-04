@@ -78,29 +78,30 @@ done
 
 #perpare installation process
 echo
+echo "Checking if curl is installed."
+curl > /dev/null 2>&1
+if [[ $? -eq 127 ]] ; then
+        while true ; do
+	        echo "The curl package is not installed on your system, but is required to complete the installation. Would you like this script to install curl now? [y/n] (choosing n will exit the script)."
+                read curl_input
+                if [[ $curl_input = 'y' ]] ; then
+                        apt install curl
+                elif [[ $curl_input = 'n' ]] ; then
+                        echo "Installation aborted. Goodbye!"
+                        exit
+                else
+                        echo "Invalid input, please try again."
+                        continue
+                fi
+                break
+        done
+
+echo
 echo "Installing Brave repository key"
 url='https://brave-browser-apt-release.s3.brave.com/brave-core.asc'
 curl -s $url | apt-key add -
-pipe_check=${PIPESTATUS[*]} #this and the next variable are created to allow for multiple checks on both sides of the pipe
-pipe_check1=$(echo $pipe_check | cut -d " " -f 1 )
-#check if curl is installed (error code 127 means a command is not available)
-if [[ $pipe_check1 -eq 127 ]] ; then
-	echo "curl is not installed on your system, but is required to complete the installation. Would you like this script to install curl now? [y/n] (choosing n will exit the script)."
-	while true ; do
-		read curl_input
-		if [[ $curl_input = 'y' ]] ; then
-			apt install curl
-		elif [[ $curl_input = 'n' ]] ; then
-			echo "Installation aborted. Goodbye!"
-			exit
-		else
-			echo "Invalid input, please try again."
-			continue
-		fi
-		break
-	done
-
 #check if both commands ran successfully, otherwise quit
+pipe_check=${PIPESTATUS[*]}
 elif [[ $pipe_check != '0 0' ]] ; then
 	echo "An error occurred. Quitting"
 	exit
