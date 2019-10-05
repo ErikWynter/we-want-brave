@@ -96,7 +96,6 @@ if [[ $? -eq 127 ]] ; then
                 break
         done
 fi
-echo
 echo "Installing Brave repository key"
 url='https://brave-browser-apt-release.s3.brave.com/brave-core.asc'
 curl -s $url | apt-key add -
