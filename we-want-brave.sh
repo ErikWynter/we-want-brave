@@ -186,12 +186,11 @@ if [[ $name_check = "Kali GNU/Linux" ]] ; then
 					echo 'The user you entered already exists. Please enter a different username or enter "root" to cancel.'
 					continue
 				else
-					adduser --system --group --shell /bin/bash $new_user > /dev/null 2>&1 && adduser $new_user audio > /dev/null			
-					if [[ ${PIPESTATUS[0]} -ne 0 ]] ; then
+					#first command creates $new_user, second adds $new_user to the audio group, third gives $new_user permissions to access the display (~./xinitrc is loaded everytime an xhost server starts), fourth makes sure the user immediately has access to the display 
+					adduser --system --group --shell /bin/bash $new_user > /dev/null 2>&1 && adduser $new_user audio > /dev/null && echo "xhost +SI:localuser:$new_user" > ~/.xinitrc && source ~/.xinitrc 
+					if [[ $? -ne 0 ]] ; then
 						echo 'Invalid username. Please enter a different username or enter "root" to cancel.'
 						continue
-					elif [[ ${PIPESTATUS[1]} -ne 0 ]] ; then
-						echo "An error occurred. The new user may not have audio permissions."
 					else	
 						echo "User \"$new_user\" created successfully."
 							new_user_check=1 #this variable is used later if the user wants the script to launch Brave, it shows that the $new_user variable can be used to run Brave
