@@ -187,7 +187,7 @@ if [[ $name_check = "Kali GNU/Linux" ]] ; then
 					continue
 				else
 					#first command creates $new_user, second adds $new_user to the audio group, third gives $new_user permissions to access the display (~./xinitrc is loaded everytime an xhost server starts), fourth makes sure the user immediately has access to the display 
-					adduser --system --group --shell /bin/bash $new_user > /dev/null 2>&1 && adduser $new_user audio > /dev/null && echo "xhost +SI:localuser:$new_user" > ~/.xinitrc && source ~/.xinitrc 
+					adduser --system --group --shell /bin/bash $new_user > /dev/null 2>&1 && adduser $new_user audio > /dev/null && echo "xhost +SI:localuser:$new_user" >> ~/.xinitrc && source ~/.xinitrc 
 					if [[ $? -ne 0 ]] ; then
 						echo 'Invalid username. Please enter a different username or enter "root" to cancel.'
 						continue
