@@ -135,41 +135,12 @@ if [[ $? -ne 0 ]] ; then
 	exit
 fi
 
-#checking OS, this is done to adjust the installation for debian and kali (see below)
-name_check=$(grep "^NAME" /etc/os-release | cut -d '"' -f 2)
-if [[ $name_check != "Debian GNU/Linux" ]] ; then
-	#check if namespaces have been enabled in the kernel, which is required for Brave to run
-	echo "Checking namespaces"
-	if [[ -e "/etc/sysctl.d/00-local-userns.conf" ]] && grep -q 'kernel.unprivileged\_userns\_clone=1' /etc/sysctl.d/00-local-userns.conf; then
-		#verify if command ran successfully, otherwise exit
-		if [[ $? -ne 0 ]] ; then
-			echo "An error occurred. Quitting"
-			exit
-		fi
-	else
-		echo 'Enabling namespaces'
-		echo 'kernel.unprivileged\_userns\_clone=1' > /etc/sysctl.d/00-local-userns.conf
-		#verify if command ran successfully, otherwise exit
-		if [[ $? -ne 0 ]] ; then
-			echo "An error occurred. Quitting"
-			exit
-		fi
-	
-		#continue
-		echo "Restarting procps"
-		service procps restart > /dev/null
-		#verify if command ran successfully, otherwise exit
-		if [[ $? -ne 0 ]] ; then
-			echo "An error occurred. Quitting"
-			exit
-		fi
-	fi
-fi
 echo
 echo "Installation complete"
 echo
 
 #check if OS is Kali, which has root as the default user
+name_check=$(grep "^NAME" /etc/os-release | cut -d '"' -f 2)
 kali=0
 if [[ $name_check = "Kali GNU/Linux" ]] ; then
 	echo "You seem to be running $name_check. Please note that in order to run Brave, you need to set up a non-root user with the right pemissions."
