@@ -127,7 +127,7 @@ fi
 
 #continue
 echo "Installing Brave browser"
-apt install brave-browser brave-keyring
+apt install brave-browser
 
 #verify if command ran successfully, otherwise exit
 if [[ $? -ne 0 ]] ; then
