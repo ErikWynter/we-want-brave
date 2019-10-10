@@ -141,7 +141,6 @@ echo
 
 #check if OS is Kali, which has root as the default user
 name_check=$(grep "^NAME" /etc/os-release | cut -d '"' -f 2)
-kali=0
 if [[ $name_check = "Kali GNU/Linux" ]] ; then
 	echo "You seem to be running $name_check. Please note that in order to run Brave, you need to set up a non-root user with the right pemissions."
 	while true ; do
