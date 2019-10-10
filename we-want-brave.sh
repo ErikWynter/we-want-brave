@@ -98,7 +98,7 @@ if [[ $? -eq 127 ]] ; then
 fi
 echo "Installing Brave repository key"
 url='https://brave-browser-apt-release.s3.brave.com/brave-core.asc'
-curl -s $url | apt-key add -
+curl -s $url | apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
 #check if both commands ran successfully, otherwise quit
 if [[ ${PIPESTATUS[0]} -ne 0 || ${PIPESTATUS[1]} -ne 0 ]] ; then
 	echo "An error occurred. Quitting"
