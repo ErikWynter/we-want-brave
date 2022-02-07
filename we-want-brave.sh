@@ -85,7 +85,7 @@ if [[ $? -eq 127 ]] ; then
 	        echo "The curl package is not installed on your system, but is required to complete the installation. Would you like this script to install curl now? [y/n] (choosing n will exit the script)."
                 read curl_input
                 if [[ $curl_input = 'y' ]] ; then
-                        apt install curl
+                        apt install curl -y
                 elif [[ $curl_input = 'n' ]] ; then
                         echo "Installation aborted. Goodbye!"
                         exit
@@ -127,7 +127,7 @@ fi
 
 #continue
 echo "Installing Brave browser"
-apt install brave-browser
+apt install brave-browser -y
 
 #verify if command ran successfully, otherwise exit
 if [[ $? -ne 0 ]] ; then
